@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">DamnVulnerableAndroid</string>
+    <string name="title_arbitrary_code_executor">Arbitrary Code Executor</string>
+    <string name="title_intent_sniffer">Intent Sniffer</string>
+    <string name="title_unprotected_activity">Unprotected Activity</string>
+    <string name="title_vulnerable_service">Vulnerable Service</string>
+    <string name="title_vulnerable_broadcast_receiver">Vulnerable Broadcast Receiver</string>
+    <string name="about">About</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--    <string name="title_"></string>-->
+
+    <string name="vulnerable_broadcast_receiver_ACTION_PASS">com.dva.challenges.challenge4.PASS</string>
+    <string name="vulnerable_broadcast_receiver_ACTION_RESET">com.dva.challenges.challenge4.RESET</string>
+
+    <string name="app_data_preference_file_name">AppData</string>
+</resources>

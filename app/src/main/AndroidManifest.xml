@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.dva.challenges">
+
+    <permission
+        android:name="com.dva.challenges.permission.MODIFY"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.dva.challenges.permission.MODIFY" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:name=".DvaApplication"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.DamnVulnerableAndroid"
+        android:requestLegacyExternalStorage="true"
+        >
+        <activity
+            android:name=".challenge5.MemoryDumpActivity"
+            android:exported="true" />
+        <activity
+            android:name=".challenge4.VulnerableBroadcastReceiverActivity"
+            android:exported="true"
+            android:label="@string/title_vulnerable_broadcast_receiver" />
+        <activity
+            android:name=".challenge2.UnprotectedActivity"
+            android:exported="true"
+            android:label="@string/title_unprotected_activity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.dva.challenges.MainActivity" />
+        </activity>
+        <activity
+            android:name=".challenge3.VulnerableServiceActivity"
+            android:label="@string/title_vulnerable_service">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".challenge1.ArbitraryCodeExecutionActivity"
+            android:label="@string/title_arbitrary_code_executor">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleInstance">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".challenge3.VulnerableService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.dva.challenges.challenge4.VulnerableService" />
+            </intent-filter>
+        </service>
+    </application>
+
+</manifest>
