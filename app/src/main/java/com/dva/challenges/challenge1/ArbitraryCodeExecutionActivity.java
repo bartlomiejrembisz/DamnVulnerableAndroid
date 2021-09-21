@@ -66,6 +66,8 @@ public class ArbitraryCodeExecutionActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        //! Setup the activity and challenge environment.
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_arbitrary_code_execution);
 
@@ -97,22 +99,17 @@ public class ArbitraryCodeExecutionActivity extends AppCompatActivity implements
 
     private Class loadRemoteClass(String remoteJarFilePath, String className) throws IOException, ClassNotFoundException
     {
-        Class targetClass = null;
-
-//        File file = new File(remoteClassPath);
-//        URL url = file.toURI().toURL();
-//        URLClassLoader classLoader = new URLClassLoader(new URL[]{url});
         Log.i(TAG, "Loading jar file " + remoteJarFilePath);
 
+        //! Use the DexClassLoader to load the dexified /sdcard/RemoteClass.jar java archive.
         DexClassLoader classLoader = new DexClassLoader(remoteJarFilePath,
                 getCodeCacheDir().getAbsolutePath(),
                 null,
                 getClass().getClassLoader());
 
+        //! Load the class.
         Log.i(TAG, "Loading class " + className);
-        targetClass = classLoader.loadClass(className);
-
-        return targetClass;
+        return classLoader.loadClass(className);
     }
 
     @Override
@@ -121,8 +118,11 @@ public class ArbitraryCodeExecutionActivity extends AppCompatActivity implements
         Class remoteClass = null;
         try
         {
+            //! Load remote class from external storage '/sdcard/'.
             remoteClass = loadRemoteClass(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + REMOTE_CLASS_NAME + ".jar",
                     REMOTE_CLASS_NAME);
+
+            //! Create RemoteClass instance and invoke passChallenge method.
             Object classObject = remoteClass.newInstance();
             Method memberFunction = remoteClass.getMethod(REMOTE_CLASS_METHOD_NAME);
             Object memberReturnValue = memberFunction.invoke(classObject);
@@ -131,6 +131,7 @@ public class ArbitraryCodeExecutionActivity extends AppCompatActivity implements
             if (null == booleanReturnValue)
                 throw new InvalidClassException("Wrong return type.");
 
+            //! Pass challenge depending on output of passChallenge.
             final boolean shouldPassChallenge = booleanReturnValue;
             if (shouldPassChallenge)
                 mApplication.setChallengeStatus(1, true);

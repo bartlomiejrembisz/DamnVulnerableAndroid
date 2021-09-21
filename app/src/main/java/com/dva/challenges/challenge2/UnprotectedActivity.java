@@ -20,6 +20,7 @@ public class UnprotectedActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_unprotected);
 
+        //! Pass the challenge on activity startup and return to parent immediately.
         Log.d(TAG, "Challenge 2 passed.");
         ((DvaApplication) getApplication()).setChallengeStatus(2, true);
         Intent intent = new Intent(UnprotectedActivity.this, MainActivity.class);

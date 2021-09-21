@@ -80,6 +80,8 @@ public class VulnerableServiceActivity extends AppCompatActivity implements DvaA
     {
         super.onResume();
 
+        //! Set the activity status on activity resume.
+
         try
         {
             if (null != mVulnerableService)

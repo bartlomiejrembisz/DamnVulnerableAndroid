@@ -24,6 +24,7 @@ public class VulnerableBroadcastReceiverActivity extends AppCompatActivity imple
     private TextView mStatus = null;
     DvaApplication mApplication = null;
 
+    //! Vulnerable broadcast receiver object.
     BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver()
     {
         @Override
@@ -35,6 +36,7 @@ public class VulnerableBroadcastReceiverActivity extends AppCompatActivity imple
                 Log.d(TAG, "Intent action=" + intent.getAction());
                 if (intent.getAction().equalsIgnoreCase(getString(R.string.vulnerable_broadcast_receiver_ACTION_PASS)))
                 {
+                    //! Pass the challenge if the appropriate intent has been received.
                     Log.d(TAG, "Challenge 5 passed.");
                     mApplication.setChallengeStatus(4, true);
                 }
@@ -58,9 +60,10 @@ public class VulnerableBroadcastReceiverActivity extends AppCompatActivity imple
         mApplication.registerChallengeStatusListener(4,  this);
         setStatus(mApplication.getChallengeStatus(4));
 
+        //! Dynamically register the broadcast receiver.
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(getString(R.string.vulnerable_broadcast_receiver_ACTION_PASS));
-        intentFilter.addAction(getString(R.string.vulnerable_broadcast_receiver_ACTION_RESET));
+
         registerReceiver(mBroadcastReceiver, intentFilter);
     }
 

@@ -20,18 +20,11 @@ import com.dva.challenges.challenge3.VulnerableServiceActivity;
 import com.dva.challenges.challenge4.VulnerableBroadcastReceiverActivity;
 import com.dva.challenges.challenge5.MemoryDumpActivity;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, SharedPreferences.OnSharedPreferenceChangeListener
+public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
     public static final String MODIFY_PERMISSION = "com.dva.challenges.permission.MODIFY";
 
     private static final String TAG = MainActivity.class.getSimpleName();
-
-//    private static final ArrayList<Class<? extends AppCompatActivity>> challengeList = new ArrayList<Class<? extends ChallengeActivity>>()
-//    {{
-//        add(ArbitraryCodeExecutionActivity.class);
-////        add(UnprotectedActivity.class);
-////        add(VulnerableServiceActivity.class);
-//    }};
 
     private DvaApplication mDvaApplication = null;
 
@@ -42,17 +35,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onActivityResult(ActivityResult result)
                 {
-//                    Intent data = result.getData();
-//                    if (null == data)
-//                        return;
-//
-//                    Log.d(TAG, "Activity=" + data.getComponent().getClassName());
-//
-//                    if (Activity.RESULT_OK == result.getResultCode())
-//                    {
-//
-//                        Log.d(TAG, "RESULT_OK");
-//                    }
                 }
             });
 
@@ -67,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        //! Setup MainActivity environment.
+
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
@@ -95,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void updateChallengeStatus()
     {
+        //! Update challenge status for every challenge.
         for (int i = 1; i <= 5; i++)
         {
             boolean challengeStatus = mDvaApplication.getChallengeStatus(i);
@@ -126,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     continue;
             }
 
+            //! Brighten the button corresponding to the challenge if challenge has been passed.
             if (challengeStatus)
                 challengeButton.setAlpha(1.0f);
             else
@@ -138,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         super.onResume();
 
+        //! Update challenge status everytime the activity is resumed.
         updateChallengeStatus();
     }
 
@@ -163,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         Intent intent = new Intent();
 
+        //! Check which button was clicked and start the appropriate activity.
         switch (view.getId())
         {
             case R.id.challenge_1_button:
@@ -195,18 +183,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         intent.putExtra("CHALLENGE_ID", view.getId());
 
+        //! Launch activity
         mChallengeLauncher.launch(intent);
-    }
-
-//    void loadChallengeState
-//    {
-//
-//    }
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s)
-    {
-//        SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
-//        for (sharedPreferences.getAll())
     }
 }

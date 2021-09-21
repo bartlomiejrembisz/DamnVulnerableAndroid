@@ -18,23 +18,27 @@ public class VulnerableService extends Service
     private static final String TAG = VulnerableService.class.getSimpleName();
     DvaApplication mApplication = null;
 
+    //! Binder service object.
     private IBinder binder = new IVulnerableService.Stub()
     {
         @Override
         public void pass() throws RemoteException
         {
+            //! Pass the challenge.
             mApplication.setChallengeStatus(3, true);
         }
 
         @Override
         public boolean hasPassed() throws RemoteException
         {
+            //! Check whether the challenge has passed.
             return mApplication.getChallengeStatus(3);
         }
 
         @Override
         public void reset() throws RemoteException
         {
+            //! Reset the challenge status. Only available if local MODIFY_PERMISSION permission is granted.
             if (PackageManager.PERMISSION_GRANTED != checkCallingOrSelfPermission(MainActivity.MODIFY_PERMISSION))
                 throw new SecurityException("Permission " + MainActivity.MODIFY_PERMISSION + " not granted.");
 

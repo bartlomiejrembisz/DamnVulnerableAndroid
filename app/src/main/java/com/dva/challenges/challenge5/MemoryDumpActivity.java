@@ -57,22 +57,25 @@ public class MemoryDumpActivity extends AppCompatActivity implements DvaApplicat
 
         try
         {
+            //! Generate RSA key pair.
             KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
             generator.initialize(515);
             KeyPair keyPair = generator.generateKeyPair();
             publicKey = (RSAPublicKey) keyPair.getPublic();
             privateKey = (RSAPrivateKey) keyPair.getPrivate();
 
+            //! Encode the private key with PKCS8.
             PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(privateKey.getEncoded());
 
+            //! Copy the base64 encoded PKCS8 encoded private key to a string.
             privateKeyString += PRIVATE_KEY_HEADER;
             privateKeyString += Base64.getEncoder().encodeToString(spec.getEncoded());
             privateKeyString += PRIVATE_KEY_FOOTER;
-            Log.i(TAG, privateKeyString);
 
+            //! Generate random 8 character message.
             String message = generateRandomString(8);
-            Log.i(TAG, message);
 
+            //! Encrypt the random message with the 515 bit RSA public key and cache it.
             cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
 
@@ -119,12 +122,18 @@ public class MemoryDumpActivity extends AppCompatActivity implements DvaApplicat
     {
         try
         {
+            //! On 'Post' button click, extract the message box string.
             String messageString = mMessageInput.getText().toString();
+
+            //! Decrypt the encrypted cached random message with the RSA private key.
             cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
 
             byte[] data = cipher.doFinal(mData);
             String decryptedString = new String(data, StandardCharsets.UTF_8);
+
+            //! Pass the challenge if the message box string is the same as the decrypted cached
+            //! random message.
             mApplication.setChallengeStatus(5, messageString.equals(decryptedString));
         }
         catch (BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException e)
@@ -150,6 +159,8 @@ public class MemoryDumpActivity extends AppCompatActivity implements DvaApplicat
 
     private static String generateRandomString(final int stringSize)
     {
+        //! Generate random string.
+
         final int leftLimit = 97;
         final int rightLimit = 122;
         Random random = new Random();
